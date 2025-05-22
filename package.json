@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A simple hello world NPM package",
   "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nautilus-wraith/publish-npm"
+  },
   "files": [
     "src",
     "README.md"
