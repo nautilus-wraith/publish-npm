@@ -1,0 +1,26 @@
+{
+  "name": "@nautilus-wraith/hello-world",
+  "version": "1.0.0",
+  "description": "A simple hello world NPM package",
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "hello",
+    "world",
+    "example"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "hello-world-npm": "^1.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
