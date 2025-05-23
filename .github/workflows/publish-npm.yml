@@ -27,13 +27,16 @@ jobs:
           echo "----------------------------------------"
 
           # Common typosquatting patterns with descriptions
-          declare -A PATTERNS=(
-            ["${PACKAGE_NAME//-/_}"]="Hyphen to underscore"
-            ["${PACKAGE_NAME//_/-}"]="Underscore to hyphen"
-            ["${PACKAGE_NAME}js"]="Added 'js' suffix"
-            ["js-${PACKAGE_NAME}"]="Added 'js-' prefix"
-            ["node-${PACKAGE_NAME}"]="Added 'node-' prefix"
-          )
+          declare -A PATTERNS=()
+
+          # Only add hyphen/underscore conversions if the character exists
+          [[ $PACKAGE_NAME == *"-"* ]] && PATTERNS["${PACKAGE_NAME//-/_}"]="Hyphen to underscore"
+          [[ $PACKAGE_NAME == *"_"* ]] && PATTERNS["${PACKAGE_NAME//_/-}"]="Underscore to hyphen"
+
+          # Add js prefix/suffix patterns
+          PATTERNS["${PACKAGE_NAME}js"]="Added 'js' suffix"
+          PATTERNS["js-${PACKAGE_NAME}"]="Added 'js-' prefix"
+          PATTERNS["node-${PACKAGE_NAME}"]="Added 'node-' prefix"
 
           # Only add character substitutions if the character exists in the package name
           [[ $PACKAGE_NAME == *"a"* ]] && PATTERNS["${PACKAGE_NAME//a/4}"]="Replaced 'a' with '4'"
@@ -44,7 +47,7 @@ jobs:
           [[ $PACKAGE_NAME == *"t"* ]] && PATTERNS["${PACKAGE_NAME//t/7}"]="Replaced 't' with '7'"
 
           FOUND_SQUATTERS=false
-          echo "📦 Found packages with similar names to $PACKAGE_NAME"
+          echo "📦 Found packages names similar to yours $PACKAGE_NAME"
           echo "----------------------------------------"
 
           for pattern in "${!PATTERNS[@]}"; do
