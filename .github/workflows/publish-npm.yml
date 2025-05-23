@@ -77,6 +77,8 @@ jobs:
           if npm view $PACKAGE_NAME &>/dev/null; then
             echo "Global package name $PACKAGE_NAME is already taken. Publishing only scoped version."
             echo "PACKAGE_TAKEN=true" >> $GITHUB_ENV
+            echo "::error::Global package name $PACKAGE_NAME is already taken. Exiting workflow."
+            exit 1
           else
             echo "Global package name $PACKAGE_NAME is available."
             echo "PACKAGE_TAKEN=false" >> $GITHUB_ENV
