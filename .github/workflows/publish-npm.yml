@@ -20,10 +20,10 @@ jobs:
       - run: npm install
 
       # Check for typosquatting
-      - name: Checking typosquatting patterns of $PACKAGE_NAME
+      - name: Checking typosquatting patterns
         run: |
           PACKAGE_NAME=$(node -p "require('./package.json').name.replace('@nautilus-wraith/', '')")
-          echo "🔍 Checking typosquatting patterns of $PACKAGE_NAME"
+          echo "🔍 Checking typosquatting patterns of your package name: $PACKAGE_NAME"
           echo "----------------------------------------"
 
           # Common typosquatting patterns with descriptions
@@ -33,13 +33,15 @@ jobs:
             ["${PACKAGE_NAME}js"]="Added 'js' suffix"
             ["js-${PACKAGE_NAME}"]="Added 'js-' prefix"
             ["node-${PACKAGE_NAME}"]="Added 'node-' prefix"
-            ["${PACKAGE_NAME//a/4}"]="Replaced 'a' with '4'"
-            ["${PACKAGE_NAME//e/3}"]="Replaced 'e' with '3'"
-            ["${PACKAGE_NAME//i/1}"]="Replaced 'i' with '1'"
-            ["${PACKAGE_NAME//o/0}"]="Replaced 'o' with '0'"
-            ["${PACKAGE_NAME//s/5}"]="Replaced 's' with '5'"
-            ["${PACKAGE_NAME//t/7}"]="Replaced 't' with '7'"
           )
+
+          # Only add character substitutions if the character exists in the package name
+          [[ $PACKAGE_NAME == *"a"* ]] && PATTERNS["${PACKAGE_NAME//a/4}"]="Replaced 'a' with '4'"
+          [[ $PACKAGE_NAME == *"e"* ]] && PATTERNS["${PACKAGE_NAME//e/3}"]="Replaced 'e' with '3'"
+          [[ $PACKAGE_NAME == *"i"* ]] && PATTERNS["${PACKAGE_NAME//i/1}"]="Replaced 'i' with '1'"
+          [[ $PACKAGE_NAME == *"o"* ]] && PATTERNS["${PACKAGE_NAME//o/0}"]="Replaced 'o' with '0'"
+          [[ $PACKAGE_NAME == *"s"* ]] && PATTERNS["${PACKAGE_NAME//s/5}"]="Replaced 's' with '5'"
+          [[ $PACKAGE_NAME == *"t"* ]] && PATTERNS["${PACKAGE_NAME//t/7}"]="Replaced 't' with '7'"
 
           FOUND_SQUATTERS=false
           echo "📦 Found packages with similar names to $PACKAGE_NAME"
@@ -70,11 +72,11 @@ jobs:
           fi
 
       # Check if unscoped package name is available
-      - name: Check package name availability
+      - name: Checking full match
         run: |
           PACKAGE_NAME=$(node -p "require('./package.json').name.replace('@nautilus-wraith/', '')")
           if npm view $PACKAGE_NAME &>/dev/null; then
-            echo "Global package name $PACKAGE_NAME is already taken. Publishing only scoped version."
+            echo "Global package name $PACKAGE_NAME is already taken."
             echo "PACKAGE_TAKEN=true" >> $GITHUB_ENV
             echo "::error::Global package name $PACKAGE_NAME is already taken. Exiting workflow."
             # exit 1 # REMOVE IN PROD
