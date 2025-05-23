@@ -78,3 +78,8 @@ npm pack --dry-run
 
 ## Installation
 - builds `node_modules`
+
+# TODO
+- check which if typosquat patterns ar registewred and which are not.
+- job pemrissions
+- run zizmor on all nautilus workflows.
