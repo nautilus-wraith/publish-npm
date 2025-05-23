@@ -45,7 +45,7 @@ jobs:
           )
 
           FOUND_SQUATTERS=false
-          echo "📦 Found packages with similar names to yours:"
+          echo "📦 Found packages with similar names to $PACKAGE_NAME"
           echo "----------------------------------------"
 
           for pattern in "${PATTERNS[@]}"; do
@@ -54,11 +54,12 @@ jobs:
               VERSION=$(npm view "$pattern" version 2>/dev/null || echo "unknown")
               TIME=$(npm view "$pattern" time.modified 2>/dev/null || echo "unknown")
               AUTHOR=$(npm view "$pattern" author 2>/dev/null || echo "unknown")
-              echo "⚠️  Package: $pattern"
-              echo "   Version: $VERSION"
-              echo "   Last Updated: $TIME"
-              echo "   Author: $AUTHOR"
-              echo "   URL: https://www.npmjs.com/package/$pattern"
+              echo "⚠️ Package: $pattern" ⚠️
+              echo "Pattern: $pattern"
+              echo "Version: $VERSION"
+              echo "Last Updated: $TIME"
+              echo "Author: $AUTHOR"
+              echo "URL: https://www.npmjs.com/package/$pattern"
               echo "----------------------------------------"
             fi
           done
