@@ -20,10 +20,10 @@ jobs:
       - run: npm install
 
       # Check for typosquatting
-      - name: Check for typosquatting and similar package names
+      - name: Checking typosquatting patterns of $PACKAGE_NAME
         run: |
           PACKAGE_NAME=$(node -p "require('./package.json').name.replace('@nautilus-wraith/', '')")
-          echo "🔍 Checking for typosquatting patterns of: $PACKAGE_NAME"
+          echo "🔍 Checking typosquatting patterns of $PACKAGE_NAME"
           echo "----------------------------------------"
 
           # Common typosquatting patterns
@@ -45,7 +45,7 @@ jobs:
           )
 
           FOUND_SQUATTERS=false
-          echo "📦 Found packages:"
+          echo "📦 Found packages with similar names to yours:"
           echo "----------------------------------------"
 
           for pattern in "${PATTERNS[@]}"; do
@@ -58,6 +58,7 @@ jobs:
               echo "   Version: $VERSION"
               echo "   Last Updated: $TIME"
               echo "   Author: $AUTHOR"
+              echo "   URL: https://www.npmjs.com/package/$pattern"
               echo "----------------------------------------"
             fi
           done
@@ -106,7 +107,7 @@ jobs:
 
       # Publish unscoped version if available
       - name: Publish unscoped package as well if not taken
-        if: needs.checks.outputs.PACKAGE_TAKEN == 'false'
+        if: needs.validate.outputs.PACKAGE_TAKEN == 'false'
         run: |
           # Temporarily modify package.json to remove scope
           PACKAGE_NAME=$(node -p "require('./package.json').name.replace('@nautilus-wraith/', '')")

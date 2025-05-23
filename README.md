@@ -80,6 +80,4 @@ npm pack --dry-run
 - builds `node_modules`
 
 # TODO
-- check which if typosquat patterns ar registewred and which are not.
-- job pemrissions
-- run zizmor on all nautilus workflows.
+- npm error Provenance generation in GitHub Actions requires "write" access to the "id-token" permission. provenance?
