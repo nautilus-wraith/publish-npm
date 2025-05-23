@@ -79,5 +79,3 @@ npm pack --dry-run
 ## Installation
 - builds `node_modules`
 
-# TODO
-- npm error Provenance generation in GitHub Actions requires "write" access to the "id-token" permission. provenance?

@@ -1,4 +1,5 @@
 name: Publish Package to npmjs
+run-name: "[Publish NPM] Ref:${{ github.ref_name }} Event:${{ github.event_name }}"
 
 on:
   push: # REMOVE IN PROD
