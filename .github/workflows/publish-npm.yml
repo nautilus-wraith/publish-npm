@@ -26,36 +26,33 @@ jobs:
           echo "🔍 Checking typosquatting patterns of $PACKAGE_NAME"
           echo "----------------------------------------"
 
-          # Common typosquatting patterns
-          PATTERNS=(
-            # Hyphen variations
-            "${PACKAGE_NAME//-/_}"  # Replace hyphens with underscores
-            "${PACKAGE_NAME//_/-}"  # Replace underscores with hyphens
-            # Common typos
-            "${PACKAGE_NAME}js"     # Adding 'js' suffix
-            "js-${PACKAGE_NAME}"    # Adding 'js-' prefix
-            "node-${PACKAGE_NAME}"  # Adding 'node-' prefix
-            # Character substitutions
-            "${PACKAGE_NAME//a/4}"  # Replace 'a' with '4'
-            "${PACKAGE_NAME//e/3}"  # Replace 'e' with '3'
-            "${PACKAGE_NAME//i/1}"  # Replace 'i' with '1'
-            "${PACKAGE_NAME//o/0}"  # Replace 'o' with '0'
-            "${PACKAGE_NAME//s/5}"  # Replace 's' with '5'
-            "${PACKAGE_NAME//t/7}"  # Replace 't' with '7'
+          # Common typosquatting patterns with descriptions
+          declare -A PATTERNS=(
+            ["${PACKAGE_NAME//-/_}"]="Hyphen to underscore"
+            ["${PACKAGE_NAME//_/-}"]="Underscore to hyphen"
+            ["${PACKAGE_NAME}js"]="Added 'js' suffix"
+            ["js-${PACKAGE_NAME}"]="Added 'js-' prefix"
+            ["node-${PACKAGE_NAME}"]="Added 'node-' prefix"
+            ["${PACKAGE_NAME//a/4}"]="Replaced 'a' with '4'"
+            ["${PACKAGE_NAME//e/3}"]="Replaced 'e' with '3'"
+            ["${PACKAGE_NAME//i/1}"]="Replaced 'i' with '1'"
+            ["${PACKAGE_NAME//o/0}"]="Replaced 'o' with '0'"
+            ["${PACKAGE_NAME//s/5}"]="Replaced 's' with '5'"
+            ["${PACKAGE_NAME//t/7}"]="Replaced 't' with '7'"
           )
 
           FOUND_SQUATTERS=false
           echo "📦 Found packages with similar names to $PACKAGE_NAME"
           echo "----------------------------------------"
 
-          for pattern in "${PATTERNS[@]}"; do
+          for pattern in "${!PATTERNS[@]}"; do
             if npm view "$pattern" &>/dev/null; then
               FOUND_SQUATTERS=true
               VERSION=$(npm view "$pattern" version 2>/dev/null || echo "unknown")
               TIME=$(npm view "$pattern" time.modified 2>/dev/null || echo "unknown")
               AUTHOR=$(npm view "$pattern" author 2>/dev/null || echo "unknown")
               echo "⚠️ Package: $pattern" ⚠️
-              echo "Pattern: $pattern"
+              echo "Pattern: ${PATTERNS[$pattern]}"
               echo "Version: $VERSION"
               echo "Last Updated: $TIME"
               echo "Author: $AUTHOR"
