@@ -1,6 +1,6 @@
 {
   "name": "@nautilus-wraith/hello-world",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple hello world NPM package",
   "main": "src/index.js",
   "repository": {
