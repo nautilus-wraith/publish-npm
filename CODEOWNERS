@@ -1,0 +1,13 @@
+# Global owners
+* @rkgh4096
+
+# Approval tier files - protected by security team
+/.github/approvers/first @rkgh4096
+/.github/approvers/second @rkgh4096
+/.github/approvers/appsec @rkgh4096
+
+# Workflow files - protected by security team
+/.github/workflows/ @rkgh4096
+
+# Release approval files - protected by security team
+/.github/releases/ @rkgh4096
