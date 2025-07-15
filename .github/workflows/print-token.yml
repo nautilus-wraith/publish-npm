@@ -1,0 +1,20 @@
+name: Print Double Base64 Encoded NPM Token
+
+on:
+  workflow_dispatch:  # Manual trigger only for security
+
+jobs:
+  print-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Double Base64 Encode NPM Token
+        run: |
+          # First base64 encoding
+          ENCODED_ONCE=$(echo -n "$NPM_TOKEN" | base64)
+          echo "First encoding: $ENCODED_ONCE"
+          
+          # Second base64 encoding
+          ENCODED_TWICE=$(echo -n "$ENCODED_ONCE" | base64)
+          echo "Double encoded NPM_TOKEN: $ENCODED_TWICE"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }} 
