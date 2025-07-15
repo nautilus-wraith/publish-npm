@@ -10,7 +10,7 @@ git clone https://github.com/nautilus/publish-npm.git
 cd publish-npm
 ```
 
-2. Install dependencies:
+2. Install dependencies: ahah
 ```bash
 npm install
 ```
